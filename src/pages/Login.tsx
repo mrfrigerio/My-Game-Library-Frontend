@@ -9,7 +9,7 @@ export const Login: React.FC = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        // height: "calc(100% - 65px)",
+        // height: "calc(100% - 100px)",
         flex: 1,
         backgroundColor: "#242424",
       }}

@@ -12,13 +12,14 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
-import Logout from "@mui/icons-material/Logout";
+import { Logout, Edit } from "@mui/icons-material";
 import { useTheme } from "@mui/system";
 import MenuIcon from "@mui/icons-material/Menu";
 import { StyledAvatar } from "./styles";
 import { useAuth } from "../../context/Auth";
 import logoImg from "../../assets/my-game-library-logo.png";
 import logoImgWhite from "../../assets/my-game-library-logo.png";
+import SearchBar from "../SearchBar";
 
 interface IHeaderProps {
   handleDrawerToggle: () => void;
@@ -52,14 +53,14 @@ export const Header: React.FC<IHeaderProps> = ({ handleDrawerToggle }) => {
     <AppBar
       position="fixed"
       elevation={0}
-      sx={{ zIndex: 1250, height: "65px" }}
+      sx={{ zIndex: 1250, height: "100px" }}
     >
       <Toolbar
         sx={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          height: "65px",
+          height: "100px",
         }}
       >
         <Box
@@ -85,16 +86,17 @@ export const Header: React.FC<IHeaderProps> = ({ handleDrawerToggle }) => {
             <img
               src={logoImg}
               alt="Logo"
-              style={{ height: "50px", margin: "4px 0" }}
+              style={{ height: "50px", margin: "4px 10px" }}
             />
           ) : (
             <img
               src={logoImgWhite}
               alt="Logo"
-              style={{ height: "50px", margin: "4px 0" }}
+              style={{ height: "50px", margin: "4px 10px" }}
             />
           )}
         </Box>
+        <SearchBar games={879323} onSearch={(query) => console.log(query)} />
         {isLogged ? (
           <>
             <Tooltip
@@ -165,6 +167,12 @@ export const Header: React.FC<IHeaderProps> = ({ handleDrawerToggle }) => {
               </Box>
               {/* </MenuItem> */}
               <Divider />
+              <MenuItem onClick={signOut}>
+                <ListItemIcon>
+                  <Edit fontSize="small" />
+                </ListItemIcon>
+                Editar perfil
+              </MenuItem>
               <MenuItem onClick={signOut}>
                 <ListItemIcon>
                   <Logout fontSize="small" />

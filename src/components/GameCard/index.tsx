@@ -18,14 +18,15 @@ export function GameCard() {
   return (
     <Card
       sx={{
-        width: 260,
         position: "relative",
-        borderRadius: 2,
+        minWidth: "160px",
+        flex: 1,
+        borderRadius: 3,
         ":hover": {
           transition: "0.5s",
           boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.5)",
           backgroundColor: "#1e1e1e",
-          transform: "scale(1.02)",
+          transform: "scale(1.03)",
           cursor: "pointer",
         },
       }}
@@ -38,19 +39,9 @@ export function GameCard() {
           <FavoriteBorderIcon />
         </IconButton>
       </Tooltip>
-
-      {/* <CardHeader
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={gameData.name}
-        subheader={gameData.released}
-      /> */}
       <CardMedia
         component="img"
-        height="140"
+        height={Math.floor(Math.random() * (200 - 140 + 1)) + 140}
         image={gameData.background_image}
         alt=""
       />

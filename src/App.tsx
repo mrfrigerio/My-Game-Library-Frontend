@@ -1,16 +1,16 @@
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "./context/Auth";
-import { Box, CssBaseline, ThemeProvider } from "@mui/material";
+import { Box, ThemeProvider } from "@mui/material";
 import { darkTheme } from "./styles/theme";
 import Routes from "./routes";
-import { Layout } from "./components/Layout";
+import GlobalStyles from "./styles/GlobalStyles";
 function App() {
   const queryClient = new QueryClient();
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
-      <CssBaseline />
+      <GlobalStyles />
       <AuthProvider>
         <ThemeProvider theme={darkTheme}>
           <Box
@@ -23,9 +23,7 @@ function App() {
               justifyContent: "center",
             }}
           >
-            <Layout>
-              <Routes />
-            </Layout>
+            <Routes />
           </Box>
         </ThemeProvider>
       </AuthProvider>
