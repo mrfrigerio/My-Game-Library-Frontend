@@ -1,37 +1,26 @@
-import { Controller, Control } from "react-hook-form";
-import Input from "@mui/material/InputBase";
+import { Controller } from "react-hook-form";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { IconButton, InputAdornment, Typography } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
 interface DropdownProps {
   values: string[];
   placeholder: string;
   name: string;
-  control: Control;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  control: any;
 }
 
-export const HomeDropdown: React.FC<DropdownProps> = ({
+export const Dropdown: React.FC<DropdownProps> = ({
   values,
   placeholder,
   name,
   control,
 }) => {
   return (
-    <FormControl sx={{ minWidth: 180 }}>
+    <FormControl size="small" sx={{ width: "100%" }}>
       <Controller
         name={name}
         control={control}
@@ -39,32 +28,20 @@ export const HomeDropdown: React.FC<DropdownProps> = ({
         render={({ field }) => (
           <Select
             size="small"
+            fullWidth
             displayEmpty
-            autoWidth
             value={field.value || ""}
             onChange={field.onChange}
-            input={
-              <Input
-                sx={{
-                  backgroundColor: "#1E1E1E",
-                  borderRadius: 2,
-                }}
-              />
-            }
             renderValue={(selected) => {
               if (!selected) {
                 return (
-                  <Typography variant="caption" sx={{ ml: 2 }}>
+                  <Typography variant="body1" color="textSecondary">
                     {placeholder}
                   </Typography>
                 );
               }
 
-              return (
-                <Typography variant="caption" sx={{ ml: 2 }}>
-                  {selected}
-                </Typography>
-              );
+              return selected;
             }}
             endAdornment={
               field.value && (
@@ -75,11 +52,10 @@ export const HomeDropdown: React.FC<DropdownProps> = ({
                 </InputAdornment>
               )
             }
-            MenuProps={MenuProps}
             inputProps={{ "aria-label": "Without label" }}
           >
             <MenuItem disabled value="">
-              <Typography variant="caption">{placeholder}</Typography>
+              {placeholder}
             </MenuItem>
             {values.map((value) => (
               <MenuItem key={value} value={value}>

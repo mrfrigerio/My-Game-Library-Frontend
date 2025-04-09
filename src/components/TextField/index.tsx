@@ -44,7 +44,7 @@ export const TextField: React.FC<IRHTextField> = ({
       defaultValue={defaultValue}
       control={control}
       render={({ field }) => (
-        <FormLabel>
+        <FormLabel sx={{ flex: 1 }}>
           <Typography
             variant="subtitle1"
             color={theme.palette.mode === "light" ? "#343734" : "#f4f4f4"}
@@ -62,6 +62,7 @@ export const TextField: React.FC<IRHTextField> = ({
             error={!!errors[name]}
             helperText={errors[name]?.message as React.ReactNode}
             size="small"
+            variant="outlined"
             {...rest}
           />
         </FormLabel>

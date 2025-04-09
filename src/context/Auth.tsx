@@ -9,6 +9,17 @@ type SignUpCredentials = {
   name: string;
   email: string;
   password: string;
+  password_confirmation: string;
+  addresses: {
+    street: string;
+    city: string;
+    state: string;
+    type: string;
+    zip_code: string;
+    neighborhood: string;
+    number: string;
+    complement: string;
+  }[];
 };
 
 interface AuthContext {
@@ -58,6 +69,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       name: credentials.name,
       email: credentials.email,
       password: credentials.password,
+      addresses: credentials.addresses,
     });
 
     if (response.status < 200 || response.status >= 300) {

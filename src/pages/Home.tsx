@@ -66,7 +66,6 @@ export const Home: React.FC = () => {
               control={methods.control}
               placeholder="Plataforma"
               values={[
-                "Todas",
                 "Playstation",
                 "Xbox",
                 "Nintendo",
