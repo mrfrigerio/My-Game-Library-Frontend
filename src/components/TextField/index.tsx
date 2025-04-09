@@ -1,5 +1,10 @@
 import React, { useEffect, useRef } from "react";
-import { FormLabel, TextField, Typography, useTheme } from "@mui/material";
+import {
+  FormLabel,
+  TextField as MUITextField,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 
 interface IRHTextField {
@@ -10,7 +15,7 @@ interface IRHTextField {
   [key: string]: string | boolean | number | undefined;
 }
 
-export const RHTextField: React.FC<IRHTextField> = ({
+export const TextField: React.FC<IRHTextField> = ({
   name,
   label,
   placeholder,
@@ -47,7 +52,7 @@ export const RHTextField: React.FC<IRHTextField> = ({
           >
             {label}
           </Typography>
-          <TextField
+          <MUITextField
             {...field}
             spellCheck={false}
             // placeholder={placeholder}

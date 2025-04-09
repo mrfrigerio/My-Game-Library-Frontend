@@ -4,14 +4,16 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { PiCardsThreeBold } from "react-icons/pi";
 import { gameData } from "../../assets/game-data";
 import {
   BsPlaystation,
   BsXbox,
   BsNintendoSwitch,
   BsMicrosoft,
+  BsAndroid2,
 } from "react-icons/bs";
+import { FaApple } from "react-icons/fa";
 import { Box, Stack, Tooltip } from "@mui/material";
 
 export function GameCard() {
@@ -20,6 +22,7 @@ export function GameCard() {
       sx={{
         position: "relative",
         minWidth: "160px",
+        maxWidth: "320px",
         flex: 1,
         borderRadius: 3,
         ":hover": {
@@ -31,14 +34,6 @@ export function GameCard() {
         },
       }}
     >
-      <Tooltip title="Favoritar" placement="left">
-        <IconButton
-          sx={{ position: "absolute", top: 0, right: 0 }}
-          size="small"
-        >
-          <FavoriteBorderIcon />
-        </IconButton>
-      </Tooltip>
       <CardMedia
         component="img"
         height={Math.floor(Math.random() * (200 - 140 + 1)) + 140}
@@ -76,7 +71,37 @@ export function GameCard() {
               <BsNintendoSwitch size={14} />
             </IconButton>
           </Tooltip>
+          <Tooltip title="iOS">
+            <IconButton size="small">
+              <FaApple size={18} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Android">
+            <IconButton size="small">
+              <BsAndroid2 size={16} />
+            </IconButton>
+          </Tooltip>
         </CardActions>
+        <Tooltip
+          title={
+            <Stack>
+              <Typography variant="caption">Adicionar na</Typography>
+              <Typography variant="caption">Minha Biblioteca</Typography>
+            </Stack>
+          }
+        >
+          <IconButton
+            size="small"
+            sx={{
+              ml: "auto",
+              mr: 1,
+              backgroundColor: "#363636",
+            }}
+          >
+            {/* <FaPlus size={14} /> */}
+            <PiCardsThreeBold color="#50FA7B" />
+          </IconButton>
+        </Tooltip>
         <Tooltip title="Metacritic Score">
           <Box
             sx={{

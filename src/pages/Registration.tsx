@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 
-export const Favorites: React.FC = () => {
+export const Registration: React.FC = () => {
   return (
     <Box
       sx={{
@@ -12,7 +12,7 @@ export const Favorites: React.FC = () => {
         marginTop: "100px",
         width: "100%",
         flex: 1,
-        backgroundColor: "#242424",
+        backgroundColor: "#121212",
       }}
     >
       <Typography variant="h4" color="primary">

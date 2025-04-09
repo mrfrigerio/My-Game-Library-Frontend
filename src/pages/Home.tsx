@@ -2,10 +2,21 @@ import React from "react";
 import { Box, Stack, Typography } from "@mui/material";
 import Masonry from "@mui/lab/Masonry";
 import { GameCard } from "../components/GameCard";
-import { Dropdown } from "../components/Dropdown";
+import { HomeDropdown } from "../components/HomeDropdown";
+import { useForm, FormProvider } from "react-hook-form";
+import { LoginForm } from "../components/LoginForm";
+import { useAuth } from "../context/Auth";
 
 export const Home: React.FC = () => {
   const filledArray = Array.from({ length: 100 }, (_, i) => i + 1);
+  const { isLogged } = useAuth();
+
+  const methods = useForm();
+
+  const platformOptions = methods.watch("platform");
+  const orderByOptions = methods.watch("orderBy");
+
+  React.useEffect(() => {}, [platformOptions, orderByOptions]);
 
   return (
     <Box
@@ -14,12 +25,15 @@ export const Home: React.FC = () => {
         marginTop: "100px",
         backgroundColor: "#121212",
         overflowY: "scroll",
+        transition: "opacity 0.3s ease-in-out",
+        opacity: isLogged ? 1 : 0.05,
       }}
     >
+      <LoginForm isOpen={!isLogged} handleClose={() => {}} />
       <Stack
-        direction="row"
+        direction={{ xs: "column", sm: "column", md: "row" }}
         justifyContent="space-between"
-        alignItems={"end"}
+        alignItems={{ xs: "start", sm: "start", md: "end" }}
         sx={{ mb: 2, pr: 3, width: "100%" }}
       >
         <Box>
@@ -34,32 +48,42 @@ export const Home: React.FC = () => {
             Baseado no ranking dos usuários
           </Typography>
         </Box>
-        <Stack direction="row" spacing={2}>
-          <Dropdown
-            placeholder="Ordenar por"
-            values={[
-              "Relevância",
-              "Popularidade",
-              "Data lançamento",
-              "Média de notas",
-            ]}
-          />
-          <Dropdown
-            placeholder="Plataforma"
-            values={[
-              "Todas",
-              "Playstation",
-              "Xbox",
-              "Nintendo",
-              "PC",
-              "Android",
-              "iOS",
-            ]}
-          />
-        </Stack>
+        <FormProvider {...methods}>
+          <Stack direction="row" spacing={2}>
+            <HomeDropdown
+              name="orderBy"
+              control={methods.control}
+              placeholder="Ordenar por"
+              values={[
+                "Relevância",
+                "Popularidade",
+                "Data de lançamento",
+                "Média de notas",
+              ]}
+            />
+            <HomeDropdown
+              name={"platform"}
+              control={methods.control}
+              placeholder="Plataforma"
+              values={[
+                "Todas",
+                "Playstation",
+                "Xbox",
+                "Nintendo",
+                "PC",
+                "Android",
+                "iOS",
+              ]}
+            />
+          </Stack>
+        </FormProvider>
       </Stack>
 
-      <Masonry spacing={3} sx={{}} columns={5}>
+      <Masonry
+        spacing={3}
+        sx={{}}
+        columns={{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }}
+      >
         {filledArray.map((_, index) => (
           <Box key={index} sx={{ display: "flex", width: "100%" }}>
             <GameCard />

@@ -1,12 +1,11 @@
 import React from "react";
 import { BrowserRouter, Routes as Router, Route, Navigate } from "react-router";
 
-import { Login } from "../pages/Login";
 import { Home } from "../pages/Home";
 import { useAuth } from "../context/Auth";
 import { Layout } from "../components/Layout";
 import { Library } from "../pages/Library";
-import { Favorites } from "../pages/Favorites";
+import { Registration } from "../pages/Registration";
 
 const Routes: React.FC = () => {
   const { isLogged } = useAuth();
@@ -14,24 +13,12 @@ const Routes: React.FC = () => {
     <BrowserRouter>
       <Layout>
         <Router>
-          <Route
-            path="login"
-            element={!isLogged ? <Login /> : <Navigate replace to="/" />}
-          />
-          <Route
-            path="/"
-            element={isLogged ? <Home /> : <Navigate replace to="/login" />}
-          />
+          <Route path="/" element={<Home />} />
           <Route
             path="/library"
-            element={isLogged ? <Library /> : <Navigate replace to="/login" />}
+            element={isLogged ? <Library /> : <Navigate replace to="/" />}
           />
-          <Route
-            path="/favorites"
-            element={
-              isLogged ? <Favorites /> : <Navigate replace to="/login" />
-            }
-          />
+          <Route path="/registration" element={<Registration />} />
         </Router>
       </Layout>
     </BrowserRouter>

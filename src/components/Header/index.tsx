@@ -3,7 +3,6 @@ import {
   AppBar,
   Box,
   Toolbar,
-  Button,
   IconButton,
   Tooltip,
   Typography,
@@ -26,9 +25,8 @@ interface IHeaderProps {
 }
 
 export const Header: React.FC<IHeaderProps> = ({ handleDrawerToggle }) => {
-  const { isLogged, user, signIn, signOut } = useAuth();
+  const { isLogged, user, signOut } = useAuth();
   const theme = useTheme();
-
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -97,7 +95,7 @@ export const Header: React.FC<IHeaderProps> = ({ handleDrawerToggle }) => {
           )}
         </Box>
         <SearchBar games={879323} onSearch={(query) => console.log(query)} />
-        {isLogged ? (
+        {isLogged && (
           <>
             <Tooltip
               placement="left"
@@ -181,14 +179,6 @@ export const Header: React.FC<IHeaderProps> = ({ handleDrawerToggle }) => {
               </MenuItem>
             </Menu>
           </>
-        ) : (
-          <Button
-            variant="text"
-            color="primary"
-            onClick={() => signIn({ email: "qualquer", password: "qualquer" })}
-          >
-            Login
-          </Button>
         )}
       </Toolbar>
     </AppBar>

@@ -7,10 +7,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { PiCardsThreeBold } from "react-icons/pi";
 import HomeIcon from "@mui/icons-material/Home";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import Toolbar from "@mui/material/Toolbar";
 import { Header } from "../Header";
-import { useAuth } from "../../context/Auth";
 import { ListItemButton } from "@mui/material";
 import { useNavigate } from "react-router";
 
@@ -22,7 +20,6 @@ interface LayoutProps {
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const { isLogged } = useAuth();
   const navigate = useNavigate();
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -40,14 +37,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
             <ListItemText primary={"Início"} />
           </ListItemButton>
         </ListItem>
-        <ListItem onClick={() => navigate("/favorites")}>
-          <ListItemButton>
-            <ListItemIcon>
-              <FavoriteIcon sx={{ fontSize: 22 }} />
-            </ListItemIcon>
-            <ListItemText primary={"Favoritos"} />
-          </ListItemButton>
-        </ListItem>
+
         <ListItem onClick={() => navigate("/library")}>
           <ListItemButton>
             <ListItemIcon>
@@ -70,48 +60,46 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           width: "100vw",
         }}
       >
-        {isLogged && (
-          <Box
-            component="nav"
-            sx={{
-              width: { sm: drawerWidth },
-              flexShrink: { sm: 0 },
+        <Box
+          component="nav"
+          sx={{
+            width: { sm: drawerWidth },
+            flexShrink: { sm: 0 },
+          }}
+          aria-label="mailbox folders"
+        >
+          <Drawer
+            variant="temporary"
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
             }}
-            aria-label="mailbox folders"
+            sx={{
+              display: { xs: "block", sm: "none" },
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
+                width: drawerWidth,
+              },
+            }}
           >
-            <Drawer
-              variant="temporary"
-              open={mobileOpen}
-              onClose={handleDrawerToggle}
-              ModalProps={{
-                keepMounted: true, // Better open performance on mobile.
-              }}
-              sx={{
-                display: { xs: "block", sm: "none" },
-                "& .MuiDrawer-paper": {
-                  boxSizing: "border-box",
-                  width: drawerWidth,
-                },
-              }}
-            >
-              {drawer}
-            </Drawer>
-            <Drawer
-              variant="permanent"
-              sx={{
-                display: { xs: "none", sm: "block" },
-                "& .MuiDrawer-paper": {
-                  boxSizing: "border-box",
-                  width: drawerWidth,
-                  border: "none",
-                },
-              }}
-              open
-            >
-              {drawer}
-            </Drawer>
-          </Box>
-        )}
+            {drawer}
+          </Drawer>
+          <Drawer
+            variant="permanent"
+            sx={{
+              display: { xs: "none", sm: "block" },
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
+                width: drawerWidth,
+                border: "none",
+              },
+            }}
+            open
+          >
+            {drawer}
+          </Drawer>
+        </Box>
         {children}
       </Box>
     </>
