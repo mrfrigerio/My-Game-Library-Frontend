@@ -2,21 +2,16 @@ import React from "react";
 import { Box, Stack, Typography } from "@mui/material";
 import Masonry from "@mui/lab/Masonry";
 import { GameCard } from "../components/GameCard";
+import { EditProfileForm } from "../components/EditProfileForm";
+import { FormProvider, useForm } from "react-hook-form";
 import { HomeDropdown } from "../components/HomeDropdown";
-import { useForm, FormProvider } from "react-hook-form";
-import { LoginForm } from "../components/LoginForm";
-import { useAuth } from "../context/Auth";
+import { useNavigate } from "react-router";
 
-export const Home: React.FC = () => {
+export const EditProfile: React.FC = () => {
+  const [isOpen, setIsOpen] = React.useState(true);
   const filledArray = Array.from({ length: 100 }, (_, i) => i + 1);
-  const { isLogged } = useAuth();
-
   const methods = useForm();
-
-  const platformOptions = methods.watch("platform");
-  const orderByOptions = methods.watch("orderBy");
-
-  React.useEffect(() => {}, [platformOptions, orderByOptions]);
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -26,13 +21,15 @@ export const Home: React.FC = () => {
         backgroundColor: "#121212",
         overflowY: "scroll",
         transition: "opacity 0.3s ease-in-out",
-        opacity: isLogged ? 1 : 0.05,
+        opacity: 0.05,
       }}
     >
-      <LoginForm
-        isOpen={!isLogged}
+      <EditProfileForm
+        isOpen={isOpen}
         handleClose={() => {
           methods.reset();
+          navigate("/");
+          setIsOpen(false);
         }}
       />
       <Stack

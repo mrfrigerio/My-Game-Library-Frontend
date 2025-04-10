@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@hookform/devtools": "^4.4.0",
     "@tanstack/eslint-plugin-query": "^5.72.0",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.0.4",

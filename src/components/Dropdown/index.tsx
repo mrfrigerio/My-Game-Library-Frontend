@@ -1,4 +1,4 @@
-import { Controller } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -10,15 +10,16 @@ interface DropdownProps {
   placeholder: string;
   name: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  control: any;
+  // control: any;
 }
 
 export const Dropdown: React.FC<DropdownProps> = ({
   values,
   placeholder,
   name,
-  control,
+  // control,
 }) => {
+  const { control } = useFormContext();
   return (
     <FormControl size="small" sx={{ width: "100%" }}>
       <Controller

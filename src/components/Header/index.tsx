@@ -19,6 +19,7 @@ import { useAuth } from "../../context/Auth";
 import logoImg from "../../assets/my-game-library-logo.png";
 import logoImgWhite from "../../assets/my-game-library-logo.png";
 import SearchBar from "../SearchBar";
+import { useNavigate } from "react-router";
 
 interface IHeaderProps {
   handleDrawerToggle: () => void;
@@ -29,6 +30,7 @@ export const Header: React.FC<IHeaderProps> = ({ handleDrawerToggle }) => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const navigate = useNavigate();
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -165,7 +167,7 @@ export const Header: React.FC<IHeaderProps> = ({ handleDrawerToggle }) => {
               </Box>
               {/* </MenuItem> */}
               <Divider />
-              <MenuItem onClick={signOut}>
+              <MenuItem onClick={() => navigate("/editprofile")}>
                 <ListItemIcon>
                   <Edit fontSize="small" />
                 </ListItemIcon>

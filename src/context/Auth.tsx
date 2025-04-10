@@ -21,12 +21,29 @@ type SignUpCredentials = {
     complement: string;
   }[];
 };
+type updateCredentials = {
+  id: string;
+  name?: string;
+  email?: string;
+  password?: string;
+  addresses?: {
+    street: string;
+    city: string;
+    state: string;
+    type: string;
+    zip_code: string;
+    neighborhood: string;
+    number: string;
+    complement: string;
+  }[];
+};
 
 interface AuthContext {
   user: User | undefined;
   isLogged: boolean;
-  signIn: (credentials: SignInCredentials) => Promise<User>;
+  signIn: (signInCredentials: SignInCredentials) => Promise<User>;
   signUp: (credentials: SignUpCredentials) => Promise<User>;
+  update: (user: updateCredentials) => Promise<User>;
   signOut: () => void;
 }
 
@@ -49,10 +66,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, []);
 
-  async function signIn(credentials: SignInCredentials) {
+  async function signIn(signInCredentials: SignInCredentials) {
     const response = await api.post<User>("/auth/login", {
-      email: credentials.email,
-      password: credentials.password,
+      email: signInCredentials.email,
+      password: signInCredentials.password,
     });
 
     if (response.status < 200 || response.status >= 300) {
@@ -64,12 +81,31 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     localStorage.setItem("@mgl", JSON.stringify(user));
     return response.data;
   }
-  async function signUp(credentials: SignUpCredentials) {
+
+  async function update(updateCredentials: updateCredentials) {
+    const response = await api.put<User>(`/users/${user?.id}`, {
+      name: updateCredentials?.name,
+      email: updateCredentials?.email,
+      password: updateCredentials?.password,
+      addresses: updateCredentials?.addresses,
+    });
+
+    if (response.status < 200 || response.status >= 300) {
+      throw new Error("Invalid credentials");
+    }
+    const userData = response.data;
+    setUser(userData);
+
+    localStorage.setItem("@mgl", JSON.stringify(user));
+    return response.data;
+  }
+
+  async function signUp(signUpCredentials: SignUpCredentials) {
     const response = await api.post<User>("/users", {
-      name: credentials.name,
-      email: credentials.email,
-      password: credentials.password,
-      addresses: credentials.addresses,
+      name: signUpCredentials.name,
+      email: signUpCredentials.email,
+      password: signUpCredentials.password,
+      addresses: signUpCredentials.addresses,
     });
 
     if (response.status < 200 || response.status >= 300) {
@@ -90,7 +126,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, isLogged, signIn, signUp, signOut }}>
+    <AuthContext.Provider
+      value={{ user, isLogged, signIn, signUp, signOut, update }}
+    >
       {children}
     </AuthContext.Provider>
   );

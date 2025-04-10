@@ -3,6 +3,18 @@ declare type User = {
   name: string;
   email: string;
   access_token: string;
+  addresses: {
+    id?: string;
+    userId?: string;
+    street: string;
+    city: string;
+    state: string;
+    type: string;
+    zip_code: string;
+    neighborhood: string;
+    number: string;
+    complement: string;
+  }[];
 };
 
 declare type Game = {

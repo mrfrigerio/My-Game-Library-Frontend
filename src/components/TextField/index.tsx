@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import {
+  FormControl,
   FormLabel,
   TextField as MUITextField,
   Typography,
@@ -39,34 +40,36 @@ export const TextField: React.FC<IRHTextField> = ({
   }, []);
 
   return (
-    <Controller
-      name={name}
-      defaultValue={defaultValue}
-      control={control}
-      render={({ field }) => (
-        <FormLabel sx={{ flex: 1 }}>
-          <Typography
-            variant="subtitle1"
-            color={theme.palette.mode === "light" ? "#343734" : "#f4f4f4"}
-            sx={{ fontSize: "1.1rem", mb: 2 }}
-          >
-            {label}
-          </Typography>
-          <MUITextField
-            {...field}
-            spellCheck={false}
-            // placeholder={placeholder}
-            label={placeholder}
-            autoComplete="off"
-            fullWidth
-            error={!!errors[name]}
-            helperText={errors[name]?.message as React.ReactNode}
-            size="small"
-            variant="outlined"
-            {...rest}
-          />
-        </FormLabel>
-      )}
-    />
+    <FormControl size="small" sx={{ width: "100%" }}>
+      <Controller
+        name={name}
+        defaultValue={defaultValue}
+        control={control}
+        render={({ field }) => (
+          <FormLabel sx={{ flex: 1 }}>
+            <Typography
+              variant="subtitle1"
+              color={theme.palette.mode === "light" ? "#343734" : "#f4f4f4"}
+              sx={{ fontSize: "1.1rem", mb: 2 }}
+            >
+              {label}
+            </Typography>
+            <MUITextField
+              {...field}
+              spellCheck={false}
+              // placeholder={placeholder}
+              label={placeholder}
+              autoComplete="off"
+              fullWidth
+              error={!!errors[name]}
+              helperText={errors[name]?.message as React.ReactNode}
+              size="small"
+              variant="outlined"
+              {...rest}
+            />
+          </FormLabel>
+        )}
+      />
+    </FormControl>
   );
 };

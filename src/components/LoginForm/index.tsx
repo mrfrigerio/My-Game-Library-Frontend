@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Dialog,
@@ -8,6 +8,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { DevTool } from "@hookform/devtools";
 import { TextField } from "../TextField";
 import { FormProvider, useForm, useFieldArray } from "react-hook-form";
 import { useAuth } from "../../context/Auth";
@@ -42,6 +43,10 @@ export const LoginForm: React.FC<IDialogProps> = ({ isOpen, handleClose }) => {
     },
   });
 
+  useEffect(() => {
+    methods.reset();
+  }, []);
+
   const { control, handleSubmit } = methods;
 
   const { fields } = useFieldArray({
@@ -69,16 +74,23 @@ export const LoginForm: React.FC<IDialogProps> = ({ isOpen, handleClose }) => {
   const onSubmit = async (data: FormData) => {
     console.log(data);
     if (newUser) {
-      await signUp(data).catch((error) => {
-        console.error("Error during sign up:", error);
-      });
+      await signUp(data)
+        .then(() => {
+          methods.reset();
+          handleClose();
+        })
+        .catch((error) => {
+          console.error("Error during sign up:", error);
+        });
     } else {
       await signIn({
         email: data.email,
         password: data.password,
+      }).then(() => {
+        methods.reset();
+        handleClose();
       });
     }
-    handleClose();
   };
 
   return (
@@ -88,10 +100,9 @@ export const LoginForm: React.FC<IDialogProps> = ({ isOpen, handleClose }) => {
         onClose={handleClose}
         component="form"
         onSubmit={handleSubmit(onSubmit)}
-        keepMounted
         sx={{
           "& .MuiDialog-paper": {
-            backgroundColor: "#242424",
+            // backgroundColor: "#242424",
             color: "#f4f4f4",
             width: "100%",
             maxWidth: () => (newUser ? "1200" : "400px"),
@@ -196,7 +207,6 @@ export const LoginForm: React.FC<IDialogProps> = ({ isOpen, handleClose }) => {
                       >
                         <Box sx={{ flex: 1 }}>
                           <Dropdown
-                            control={methods.control}
                             values={["Residencial", "Comercial"]}
                             name={`addresses.${index}.type`}
                             placeholder="Tipo (residencial/comercial)"
@@ -228,16 +238,16 @@ export const LoginForm: React.FC<IDialogProps> = ({ isOpen, handleClose }) => {
                         </Box>
                       </Stack>
                       <Stack direction="row" spacing={1}>
+                        <TextField
+                          name={`addresses.${index}.street`}
+                          placeholder="Logradouro"
+                        />
                         <Box sx={{ flexGrow: 2 }}>
                           <TextField
-                            name={`addresses.${index}.street`}
-                            placeholder="Logradouro"
+                            name={`addresses.${index}.number`}
+                            placeholder="Número"
                           />
                         </Box>
-                        <TextField
-                          name={`addresses.${index}.number`}
-                          placeholder="Número"
-                        />
                       </Stack>
                       <TextField
                         name={`addresses.${index}.complement`}
@@ -290,6 +300,7 @@ export const LoginForm: React.FC<IDialogProps> = ({ isOpen, handleClose }) => {
             {newUser ? "Já tenho cadastro" : "Realizar meu cadastro"}
           </Button>
         </DialogContent>
+        <DevTool control={control} />
       </Dialog>
     </FormProvider>
   );
